@@ -11,13 +11,13 @@ public class Base {
     public void receberDano(int dano) {
         if (dano > 0) {
             this.vidaAtual -= dano;
-            if (this.vidaAtual < 0) {
+            if (this.vidaAtual < 0) {   //caso passe da vida max so torna igual a zero
                 this.vidaAtual = 0;
             }
         }
     }
 
-    public void curar(int quantidade) {
+    public void curar(int quantidade) { //futuro maybe fazer algo pra curar a base, item ou poder talvez. ou nao tbm
         if (quantidade > 0) {
             this.vidaAtual += quantidade;
             if (this.vidaAtual > this.vidaMaxima) {
@@ -34,7 +34,7 @@ public class Base {
         return vidaMaxima;
     }
 
-    public boolean estaDestruida() {
+    public boolean Destruida() {
         return this.vidaAtual <= 0;
     }
 }
