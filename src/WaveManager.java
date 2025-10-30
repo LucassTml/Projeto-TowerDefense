@@ -22,12 +22,14 @@ public class WaveManager {
 
         // Adiciona os inimigos na fila de espera, em vez de diretamente no jogo
         for (int i = 0; i < 5 + currentWave; i++) {
-            Enemy e = new Enemy(path, 1.25, 10, 10);
+            Enemy e = new Enemy(path, 1.25, 10, 10, 5); // Adiciona recompensa de 5
             spawnQueue.add(e);
         }
     }
 
-    public void update() {
+    public int update() {
+
+        int moneyEarned = 0;
         // Spawn
         spawnTimer++;
         if (spawnTimer >= spawnInterval && !spawnQueue.isEmpty()) {
@@ -39,9 +41,11 @@ public class WaveManager {
         for (Enemy e : new ArrayList<>(activeEnemies)) {
             e.update();
             if (e.isDead()) {   // se ta morto
+                moneyEarned += e.getKillReward();
                 activeEnemies.remove(e);
             }
         }
+        return moneyEarned; // RETORNA O DINHEIRO GANHO
     }
 
     // gets
@@ -51,5 +55,10 @@ public class WaveManager {
 
     public int getCurrentWave() {
         return currentWave;
+    }
+
+    public boolean isWaveComplete() {
+        // A onda está completa se não há inimigos ativos E a fila de spawn está vazia
+        return activeEnemies.isEmpty() && spawnQueue.isEmpty();
     }
 }

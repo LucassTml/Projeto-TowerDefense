@@ -14,4 +14,8 @@ public class Tile {
     public boolean canBuild() {
         return canBuild;
     }
+
+    public void setCanBuild(boolean canBuild) {
+        this.canBuild = canBuild;
+    }
 }

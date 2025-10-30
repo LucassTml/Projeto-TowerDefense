@@ -11,12 +11,14 @@ public class Enemy {
     private int vida;
     private int currentWaypoint;
     private List<Point> path;
+    private int killReward;
 
-    public Enemy(List<Point> path, double speed, int vida, int damage) {
+    public Enemy(List<Point> path, double speed, int vida, int damage, int killReward) {
         this.path = path;
         this.speed = speed;
         this.vida = vida;
         this.damage = damage;
+        this.killReward = killReward;
         this.currentWaypoint = 0;
 
         // comecar no centro no primeiro tile
@@ -75,4 +77,9 @@ public class Enemy {
     public boolean isDead() {
         return vida <= 0;
     }
+
+    public int getKillReward() {
+        return killReward;
+    }
+
 }
