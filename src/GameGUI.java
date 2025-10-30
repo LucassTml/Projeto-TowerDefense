@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.List; // Importe o List do java.util
+import java.util.List;
 
 public class GameGUI extends JPanel {
     private Map map;
@@ -14,7 +14,6 @@ public class GameGUI extends JPanel {
     private List<Projectile> projectiles = new ArrayList<>();
     private int playerMoney = 100; // Economia inicial
 
-    // NOVOS: Estado do Jogo e Referências de UI
     private enum GameState { BUILDING_PHASE, WAVE_IN_PROGRESS }
     private GameState currentState;
     private int selectedTowerType = 0; // 0 = Nada, 1 = Basic, 2 = Sniper
@@ -23,7 +22,6 @@ public class GameGUI extends JPanel {
     private JRadioButton basicTowerButton;
     private JRadioButton sniperTowerButton;
 
-    // CONSTRUTOR MODIFICADO: Recebe os botões da UI
     public GameGUI(JButton startWaveButton, JRadioButton basicTowerButton, JRadioButton sniperTowerButton) {
         map = new Map(10, 10);
         base = new Base(100);
@@ -57,9 +55,6 @@ public class GameGUI extends JPanel {
 
         Timer timer = new Timer(50, e -> gameLoop());
         timer.start();
-
-        // REMOVEMOS O waveManager.startNextWave() DAQUI
-        // Agora o usuário inicia a primeira onda
     }
 
     public void startWave() {
@@ -106,17 +101,17 @@ public class GameGUI extends JPanel {
         }
     }
 
-    // GAMELOOP MODIFICADO: Agora usa o GameState
+    // Agora usa o GameState
     private void gameLoop() {
 
         // Só atualiza inimigos, torres e projéteis se a onda estiver em progresso
         if (currentState == GameState.WAVE_IN_PROGRESS) {
 
-            // 1. Atualiza WaveManager (spawns, move inimigos, remove mortos)
+            //  Atualiza WaveManager (spawns, move inimigos, remove mortos)
             int moneyFromKills = waveManager.update();
             playerMoney += moneyFromKills;
 
-            // 2. Verifica inimigos que chegaram ao fim
+            //  Verifica inimigos que chegaram ao fim
             List<Enemy> enemiesReachedEnd = new ArrayList<>();
             for (Enemy enemy : waveManager.getEnemies()) {
                 if (enemy.reachedEnd()) {
@@ -126,7 +121,7 @@ public class GameGUI extends JPanel {
             }
             waveManager.getEnemies().removeAll(enemiesReachedEnd); // Remove-os
 
-            // 3. Atualiza Torres (encontram alvos, disparam projéteis)
+            //  Atualiza Torres (encontram alvos, disparam projéteis)
             for (Tower tower : towers) {
                 Projectile p = tower.update(waveManager.getEnemies());
                 if (p != null) {
@@ -134,7 +129,7 @@ public class GameGUI extends JPanel {
                 }
             }
 
-            // 4. Atualiza Projéteis (movem, dão dano, são removidos)
+            //  Atualiza Projéteis (movem, dão dano, são removidos)
             List<Projectile> projectilesToRemove = new ArrayList<>();
             for (Projectile p : projectiles) {
                 p.update();
@@ -144,17 +139,14 @@ public class GameGUI extends JPanel {
             }
             projectiles.removeAll(projectilesToRemove);
 
-            // 5. Verifica se a onda terminou
+            // Verifica se a onda terminou
             if (waveManager.isWaveComplete() && waveManager.getCurrentWave() > 0) {
                 currentState = GameState.BUILDING_PHASE;
                 System.out.println("Onda " + waveManager.getCurrentWave() + " completada!");
             }
         }
 
-        // 6. Atualiza o estado dos botões (sempre)
         updateUIElements();
-
-        // 7. Redesenha a tela (sempre)
         repaint();
     }
 
@@ -168,11 +160,9 @@ public class GameGUI extends JPanel {
             startWaveButton.setText("Onda " + waveManager.getCurrentWave() + " em progresso...");
         }
 
-        // Atualiza botões de torre (pode comprar?)
         basicTowerButton.setEnabled(playerMoney >= BasicTower.COST);
         sniperTowerButton.setEnabled(playerMoney >= SniperTower.COST);
 
-        // Atualiza texto dos botões (para mostrar o custo)
         basicTowerButton.setText("Torre Básica ($" + BasicTower.COST + ")");
         sniperTowerButton.setText("Torre Sniper ($" + SniperTower.COST + ")");
     }
@@ -183,7 +173,6 @@ public class GameGUI extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        // 1. desenha grid (sem mudanças)
         for (int i = 0; i < map.getRows(); i++) {
             for (int j = 0; j < map.getCols(); j++) {
                 Tile t = map.getTile(i, j);
@@ -198,7 +187,6 @@ public class GameGUI extends JPanel {
             }
         }
 
-        // 2. desenha inimigos (sem mudanças)
         for (Enemy e : waveManager.getEnemies()) {
             int ex = (int)e.getX();
             int ey = (int)e.getY();
@@ -210,17 +198,14 @@ public class GameGUI extends JPanel {
             g.drawOval(ex, ey, size, size);
         }
 
-        // 3. Desenha Torres (sem mudanças)
         for (Tower t : towers) {
             t.draw(g2d);
         }
 
-        // 4. Desenha Projéteis (sem mudanças)
         for (Projectile p : projectiles) {
             p.draw(g2d);
         }
 
-        // 5. HUD (sem mudanças, apenas no 'main' que aumentamos o frame)
         Font hudFont = new Font("Verdana", Font.BOLD, 16);
         g.setFont(hudFont);
         g.setColor(Color.BLACK);
