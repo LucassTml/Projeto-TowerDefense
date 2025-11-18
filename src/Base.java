@@ -1,7 +1,7 @@
+// Base.java
 public class Base {
-
     private int vidaAtual;
-    private final int vidaMaxima;
+    private int vidaMaxima;
 
     public Base(int vidaMaxima) {
         this.vidaMaxima = vidaMaxima;
@@ -9,32 +9,25 @@ public class Base {
     }
 
     public void receberDano(int dano) {
-        if (dano > 0) {
-            this.vidaAtual -= dano;
-            if (this.vidaAtual < 0) {   //caso passe da vida max so torna igual a zero
-                this.vidaAtual = 0;
-            }
+        this.vidaAtual -= dano;
+        // Garante que a vida não fique negativa
+        if (this.vidaAtual < 0) {
+            this.vidaAtual = 0;
         }
     }
 
-    public void curar(int quantidade) { //futuro maybe fazer algo pra curar a base, item ou poder talvez. ou nao tbm
-        if (quantidade > 0) {
-            this.vidaAtual += quantidade;
-            if (this.vidaAtual > this.vidaMaxima) {
-                this.vidaAtual = this.vidaMaxima;
-            }
-        }
+    // Método para verificar se a base foi destruída
+    // Este é o método que estava causando o erro de "cannot find symbol"
+    public boolean estaDestruida() {
+        return vidaAtual <= 0;
     }
 
+    // Getters para a vida atual e máxima da base
     public int getVidaAtual() {
         return vidaAtual;
     }
 
     public int getVidaMaxima() {
         return vidaMaxima;
-    }
-
-    public boolean Destruida() {
-        return this.vidaAtual <= 0;
     }
 }

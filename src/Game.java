@@ -38,7 +38,7 @@ import java.util.ArrayList;
     public void start() {
         waveManager.startNextWave();
 
-        while (!base.Destruida()) {
+        while (!base.estaDestruida()) {
             System.out.println("Game Over!");
         }
     }

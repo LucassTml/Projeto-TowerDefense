@@ -18,7 +18,7 @@ public class Projectile {
     }
 
     public void update() {
-        if (!active || target == null || target.isDead()) {
+        if (!active || target == null || !target.isAlive()) {
             active = false; // Desativa se o alvo morreu
             return;
         }

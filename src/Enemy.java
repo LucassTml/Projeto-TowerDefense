@@ -1,85 +1,98 @@
+// Enemy.java
+import java.awt.Graphics2D;
+import java.awt.Color;
 import java.awt.Point;
 import java.util.List;
 
-// Primeiro tipo de inimigo, o mais basico
-// Fazer depois, mais rapido, um com mais vida e maior, um com dupla camada, um com camada secreta/algo do tipo
+public class Enemy { // <--- Garanta que não seja 'abstract' se você não tiver subclasses que a implementem
+    protected double x, y; // Tornar protected para subclasses acessarem diretamente
+    protected double speed;
+    protected int damage;
+    protected int vidaAtual; // Renomeado para vidaAtual para clareza
+    protected int vidaMaxima; // Adicionado vidaMaxima
+    protected int currentWaypoint;
+    protected List<Point> path;
+    protected int killReward;
 
-public class Enemy {
-    private double x, y;
-    private double speed;
-    private int damage;
-    private int vida;
-    private int currentWaypoint;
-    private List<Point> path;
-    private int killReward;
-
-    public Enemy(List<Point> path, double speed, int vida, int damage, int killReward) {
+    public Enemy(List<Point> path, double speed, int vidaInicial, int damage, int killReward) {
         this.path = path;
         this.speed = speed;
-        this.vida = vida;
+        this.vidaAtual = vidaInicial;
+        this.vidaMaxima = vidaInicial; // Vida máxima é a vida inicial
         this.damage = damage;
         this.killReward = killReward;
         this.currentWaypoint = 0;
 
-        // comecar no centro no primeiro tile
         Point start = path.get(0);
-        this.x = start.x + 5; // Centraliza em X (tile 50px, inimigo 40px)
-        this.y = start.y + 5; // Centraliza em Y
+        this.x = start.x;
+        this.y = start.y;
     }
 
     public void update() {
-        //último ponto, não se move mais
         if (currentWaypoint >= path.size()) {
             return;
         }
 
-        // Define o centro do tile alvo
         Point targetPoint = path.get(currentWaypoint);
-        double targetX = targetPoint.x + 5;
-        double targetY = targetPoint.y + 5;
+        double targetX = targetPoint.x;
+        double targetY = targetPoint.y;
 
-        // Distancia ate o alvo
         double dx = targetX - x;
         double dy = targetY - y;
-        double distance = Math.sqrt(dx * dx + dy * dy); // pitagoras
+        double distance = Math.sqrt(dx * dx + dy * dy);
 
-        // Se a distancia < velocidade da tp para o alvo (oq nao deve acontecer idalmente ne)
-        // para evitar que ele passe do ponto, e avanca para o proximo alvo.
         if (distance < speed) {
             x = targetX;
             y = targetY;
             currentWaypoint++;
-
         } else {
-            // Se estiver longe, vai normal
             x += (dx / distance) * speed;
             y += (dy / distance) * speed;
         }
     }
 
     public boolean reachedEnd() {
-        return currentWaypoint >= path.size();  // retorna true se chegou
+        return currentWaypoint >= path.size();
     }
 
-
-    // Gets e tal
     public int getDamage() {
         return damage;
     }
 
-    public double getX() { return x; }
-    public double getY() { return y; }
+    public double getX() { return x; } // PUBLICO
+    public double getY() { return y; } // PUBLICO
 
-    public void takeDamage(int amount) {
-        vida -= amount;
+    public int getVidaAtual() {
+        return vidaAtual;
     }
 
-    public boolean isDead() {
-        return vida <= 0;
+    public void takeDamage(int amount) {
+        vidaAtual -= amount;
+        if (vidaAtual < 0) {
+            vidaAtual = 0;
+        }
+    }
+
+    public boolean isAlive() { // O método que Tower.java está procurando
+        return vidaAtual > 0;
     }
 
     public int getKillReward() {
         return killReward;
     }
 
+    public int getVidaMaxima() { // Adicionei este getter também
+        return vidaMaxima;
+    }
+
+    public void draw(Graphics2D g2d) {
+        int enemySize = 40;
+        int drawX = (int)x - enemySize / 2;
+        int drawY = (int)y - enemySize / 2;
+
+        g2d.setColor(Color.RED);
+        g2d.fillOval(drawX, drawY, enemySize, enemySize);
+        g2d.setColor(Color.BLACK);
+        g2d.drawOval(drawX, drawY, enemySize, enemySize);
+    }
 }
