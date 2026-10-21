@@ -1,0 +1,62 @@
+// Acts (biomes). Waves are generated procedurally by spending a threat budget:
+// budget = base + perWave * waveIndex + perFloor * floor. Each pool entry has a threat cost.
+[
+  {
+    "act": 1, "name": "The Greenwood", "subtitle": "Goblins stir beneath the old oaks.",
+    "floors": 7, "startMana": 160, "hpMult": 1.0, "manaMult": 1, "hpPerFloor": 0.07, "twoLaneChance": 0.0,
+    "waves": { "normal": 4, "elite": 5, "boss": 6 },
+    "budget": { "base": 9, "perWave": 5, "perFloor": 1.6 },
+    "pool": [
+      { "enemy": "grunt", "cost": 1, "weight": 10 },
+      { "enemy": "runner", "cost": 0.8, "weight": 5, "minWave": 1 },
+      { "enemy": "bat", "cost": 1.5, "weight": 4, "minWave": 1, "minFloor": 1 },
+      { "enemy": "brute", "cost": 3, "weight": 4, "minWave": 2 },
+      { "enemy": "shaman", "cost": 2.5, "weight": 3, "minWave": 2, "minFloor": 2 },
+      { "enemy": "shieldbearer", "cost": 2.5, "weight": 3, "minWave": 1, "minFloor": 3 },
+      { "enemy": "broodmother", "cost": 4, "weight": 2, "minWave": 3, "minFloor": 4 }
+    ],
+    "elites": ["brute", "shieldbearer", "broodmother"],
+    "boss": "warlord", "bossEscorts": ["grunt", "runner", "brute"],
+    "theme": { "grass": "#3f6b35", "grassAlt": "#47763b", "path": "#a08463", "pathEdge": "#7a6146",
+               "rock": "#6d6f73", "accent": "#9fd36a" }
+  },
+  {
+    "act": 2, "name": "The Frostmarch", "subtitle": "Wind, ice, and things that fly.",
+    "floors": 7, "startMana": 230, "hpMult": 1.4, "manaMult": 1.6, "hpPerFloor": 0.07, "twoLaneChance": 0.45,
+    "waves": { "normal": 5, "elite": 5, "boss": 6 },
+    "budget": { "base": 11, "perWave": 5.5, "perFloor": 1.8 },
+    "pool": [
+      { "enemy": "grunt", "cost": 1, "weight": 4 },
+      { "enemy": "runner", "cost": 0.8, "weight": 5 },
+      { "enemy": "bat", "cost": 1.5, "weight": 4 },
+      { "enemy": "wraith", "cost": 2.2, "weight": 6, "minWave": 1 },
+      { "enemy": "yeti", "cost": 3.2, "weight": 5, "minWave": 1 },
+      { "enemy": "frost_drake", "cost": 3.0, "weight": 4, "minWave": 2 },
+      { "enemy": "shieldbearer", "cost": 2.5, "weight": 3 },
+      { "enemy": "ice_golem", "cost": 5, "weight": 3, "minWave": 3, "minFloor": 2 }
+    ],
+    "elites": ["yeti", "wraith", "ice_golem"],
+    "boss": "frost_wyrm", "bossEscorts": ["wraith", "yeti", "frost_drake"],
+    "theme": { "grass": "#8fa6b5", "grassAlt": "#9ab1bf", "path": "#5f6f80", "pathEdge": "#4a5764",
+               "rock": "#46525e", "accent": "#bff0ff" }
+  },
+  {
+    "act": 3, "name": "The Ashen Wastes", "subtitle": "The ground itself burns.",
+    "floors": 7, "startMana": 340, "hpMult": 1.85, "manaMult": 2.2, "hpPerFloor": 0.07, "twoLaneChance": 0.7,
+    "waves": { "normal": 5, "elite": 6, "boss": 7 },
+    "budget": { "base": 12, "perWave": 6, "perFloor": 2 },
+    "pool": [
+      { "enemy": "imp", "cost": 1, "weight": 8 },
+      { "enemy": "runner", "cost": 0.8, "weight": 3 },
+      { "enemy": "wraith", "cost": 2.2, "weight": 3 },
+      { "enemy": "warlock", "cost": 3.5, "weight": 4, "minWave": 1 },
+      { "enemy": "phoenix", "cost": 4.0, "weight": 4, "minWave": 1 },
+      { "enemy": "magma_brute", "cost": 5, "weight": 4, "minWave": 2 },
+      { "enemy": "broodmother", "cost": 4, "weight": 2 }
+    ],
+    "elites": ["magma_brute", "warlock", "phoenix"],
+    "boss": "colossus", "bossEscorts": ["imp", "warlock", "phoenix"],
+    "theme": { "grass": "#463631", "grassAlt": "#4f3c36", "path": "#8a4a32", "pathEdge": "#5f301f",
+               "rock": "#2e2522", "accent": "#ff8a3d" }
+  }
+]

@@ -1,0 +1,66 @@
+// Global tuning. Every number that is not specific to one tower/enemy lives here.
+{
+  "startHp": 50,
+  "startGold": 99,
+  "starterTowers": ["archer", "cannon", "frost"],
+
+  "battle": {
+    "waveClearMana": 20,
+    "waveClearManaPerWave": 6,
+    "earlyCallMana": 15,
+    "sellRefund": 0.7,
+    "burnMaxStacks": 5,
+    "poisonMaxStacks": 10,
+    "shredMaxStacks": 5,
+    // Rune tiles are rare glowing tiles that empower the tower built on them.
+    "runeTileMods": [ { "stat": "range", "pct": 0.2 }, { "stat": "damage", "pct": 0.15 } ]
+  },
+
+  // Blueprint tiers are permanent (for the run) upgrades of a tower type: Mk II, Mk III.
+  "blueprintTiers": [
+    [ { "stat": "damage", "pct": 0.25 }, { "stat": "status_power", "pct": 0.2 }, { "stat": "support_damage", "pct": 0.25 }, { "stat": "income", "pct": 0.25 } ],
+    [ { "stat": "damage", "pct": 0.25 }, { "stat": "status_power", "pct": 0.2 }, { "stat": "attack_speed", "pct": 0.15 },
+      { "stat": "support_damage", "pct": 0.25 }, { "stat": "income", "pct": 0.25 } ]
+  ],
+
+  "run": {
+    "restHealPct": 0.3,
+    // Healing (fraction of missing HP) when moving to the next act.
+    "actHealPct": 0.5
+  },
+
+  "rewards": {
+    "gold": { "normal": [18, 28], "elite": [35, 45], "boss": [80, 100] },
+    // [common, uncommon, rare] weights per encounter kind.
+    "rarityWeights": { "normal": [62, 32, 6], "elite": [40, 42, 18], "boss": [0, 20, 80] },
+    // Each draft without a rare adds this many points to the rare weight (bad-luck protection).
+    "rarePityStep": 1.5,
+    "draftChoices": 3,
+    "upgradeOfferChance": 0.3
+  },
+
+  "shop": {
+    "towerPrice": { "common": 70, "uncommon": 110, "rare": 160 },
+    "relicPrice": { "common": 120, "uncommon": 165, "rare": 230, "boss": 300 },
+    "forgePriceBase": 60,
+    "forgePriceStep": 25,
+    "healPrice": 50,
+    "healServicePct": 0.3
+  },
+
+  "essence": { "perFloor": 2, "perElite": 5, "perBoss": 15, "win": 30, "ascensionBonus": 0.1 },
+
+  // Ascension levels are cumulative: level 3 includes the effects of 1 and 2.
+  "ascension": [
+    { "level": 1, "text": "Enemies have 8% more HP.", "effects": { "enemyHp": 0.08 } },
+    { "level": 2, "text": "Start with 5 less max HP.", "effects": { "maxHp": -5 } },
+    { "level": 3, "text": "Elite enemies gain an extra affix.", "effects": { "eliteAffixes": 1 } },
+    { "level": 4, "text": "Battles grant 15% less gold.", "effects": { "goldMult": -0.15 } },
+    { "level": 5, "text": "Campfires heal 10% less.", "effects": { "restHeal": -0.1 } },
+    { "level": 6, "text": "Enemies move 6% faster.", "effects": { "enemySpeed": 0.06 } },
+    { "level": 7, "text": "Shop prices are 15% higher.", "effects": { "shopPrice": 0.15 } },
+    { "level": 8, "text": "Start each battle with 20 less mana.", "effects": { "startMana": -20 } },
+    { "level": 9, "text": "Bosses have 20% more HP.", "effects": { "bossHp": 0.2 } },
+    { "level": 10, "text": "Every leak deals 1 extra damage.", "effects": { "leakDamage": 1 } }
+  ]
+}

@@ -1,0 +1,203 @@
+// Tower blueprints. Units: range/splash in tiles, cooldown in seconds, speeds in tiles/second.
+// "upgrades" are in-battle level ups (L1 -> L2 -> L3). At max level the player picks ONE branch.
+[
+  {
+    "id": "archer", "name": "Arrow Tower", "rarity": "starter", "cost": 50,
+    "description": "Fast, cheap single-target shots. Hits flying enemies.",
+    "tags": ["physical", "ranged"], "kind": "projectile", "damageType": "physical",
+    "color": "#c9a46a",
+    "stats": { "damage": 8, "cooldown": 0.7, "range": 2.8, "projectile_speed": 13, "hit_air": 1, "crit_chance": 0.05 },
+    "upgrades": [
+      { "cost": 45, "mods": [ { "stat": "damage", "add": 4 }, { "stat": "attack_speed", "pct": 0.15 } ] },
+      { "cost": 70, "mods": [ { "stat": "damage", "add": 5 }, { "stat": "range", "add": 0.4 } ] }
+    ],
+    "branches": [
+      { "id": "longbow", "name": "Longbow", "cost": 110, "description": "+1.5 range, +40% damage, +15% crit chance.",
+        "mods": [ { "stat": "range", "add": 1.5 }, { "stat": "damage", "pct": 0.4 }, { "stat": "crit_chance", "add": 0.15 } ] },
+      { "id": "volley", "name": "Volley", "cost": 110, "description": "Shoots 3 targets at once, +20% attack speed.",
+        "mods": [ { "stat": "multishot", "add": 2 }, { "stat": "attack_speed", "pct": 0.2 } ] }
+    ]
+  },
+  {
+    "id": "cannon", "name": "Cannon", "rarity": "starter", "cost": 70,
+    "description": "Explosive shells that damage groups. Cannot hit flying enemies.",
+    "tags": ["physical", "siege"], "kind": "projectile", "damageType": "physical",
+    "color": "#8d8f99",
+    "stats": { "damage": 14, "cooldown": 1.5, "range": 2.4, "splash": 0.9, "projectile_speed": 8 },
+    "upgrades": [
+      { "cost": 60, "mods": [ { "stat": "damage", "add": 8 }, { "stat": "splash", "add": 0.2 } ] },
+      { "cost": 85, "mods": [ { "stat": "damage", "add": 10 }, { "stat": "attack_speed", "pct": 0.15 } ] }
+    ],
+    "branches": [
+      { "id": "siege", "name": "Siege Cannon", "cost": 140, "description": "+60% damage, pierces 6 armor and shreds armor.",
+        "mods": [ { "stat": "damage", "pct": 0.6 }, { "stat": "armor_pen", "add": 6 } ],
+        "onHit": [ { "status": "shred", "magnitude": 2, "duration": 4 } ] },
+      { "id": "cluster", "name": "Cluster Bombs", "cost": 140, "description": "+0.6 splash radius, +25% attack speed.",
+        "mods": [ { "stat": "splash", "add": 0.6 }, { "stat": "attack_speed", "pct": 0.25 } ] }
+    ]
+  },
+  {
+    "id": "frost", "name": "Frost Spire", "rarity": "starter", "cost": 60,
+    "description": "Icy bolts that slow enemies. Physical hits on frozen enemies SHATTER for double damage.",
+    "tags": ["frost", "control"], "kind": "projectile", "damageType": "frost",
+    "color": "#7fd4ff",
+    "stats": { "damage": 4, "cooldown": 1.0, "range": 2.5, "projectile_speed": 10, "hit_air": 1 },
+    "onHit": [ { "status": "slow", "magnitude": 0.35, "duration": 2.0 } ],
+    "upgrades": [
+      { "cost": 50, "mods": [ { "stat": "status_power", "pct": 0.25 }, { "stat": "damage", "add": 2 } ] },
+      { "cost": 75, "mods": [ { "stat": "splash", "add": 0.6 }, { "stat": "status_duration", "pct": 0.3 } ] }
+    ],
+    "branches": [
+      { "id": "glacier", "name": "Glacier", "cost": 130, "description": "20% chance to freeze for 1s, +6 damage.",
+        "mods": [ { "stat": "damage", "add": 6 } ],
+        "onHit": [ { "status": "freeze", "duration": 1.0, "chance": 0.2 } ] },
+      { "id": "blizzard", "name": "Blizzard", "cost": 130, "description": "+0.8 splash, +30% attack speed, stronger slow.",
+        "mods": [ { "stat": "splash", "add": 0.8 }, { "stat": "attack_speed", "pct": 0.3 }, { "stat": "status_power", "pct": 0.15 } ] }
+    ]
+  },
+  {
+    "id": "brazier", "name": "Flame Brazier", "rarity": "common", "cost": 75,
+    "description": "Short-range fire pulse that ignites everything around it. Burn stacks.",
+    "tags": ["fire"], "kind": "pulse", "damageType": "fire",
+    "color": "#ff8a3d",
+    "stats": { "damage": 5, "cooldown": 1.0, "range": 1.6 },
+    "onHit": [ { "status": "burn", "magnitude": 3, "duration": 3 } ],
+    "upgrades": [
+      { "cost": 60, "mods": [ { "stat": "damage", "add": 3 }, { "stat": "status_power", "pct": 0.3 } ] },
+      { "cost": 85, "mods": [ { "stat": "range", "add": 0.4 }, { "stat": "attack_speed", "pct": 0.2 } ] }
+    ],
+    "branches": [
+      { "id": "inferno", "name": "Inferno", "cost": 150, "description": "+60% burn damage, burns last 50% longer.",
+        "mods": [ { "stat": "status_power", "pct": 0.6 }, { "stat": "status_duration", "pct": 0.5 } ] },
+      { "id": "phoenix", "name": "Phoenix Altar", "cost": 150, "description": "Hits flying enemies, +60% damage, +0.5 range.",
+        "mods": [ { "stat": "hit_air", "set": 1 }, { "stat": "damage", "pct": 0.6 }, { "stat": "range", "add": 0.5 } ] }
+    ]
+  },
+  {
+    "id": "venom", "name": "Venom Nest", "rarity": "common", "cost": 65,
+    "description": "Spits poison that stacks and ignores armor. Great against tanks.",
+    "tags": ["poison", "nature"], "kind": "projectile", "damageType": "poison",
+    "color": "#8fe36a",
+    "stats": { "damage": 3, "cooldown": 0.9, "range": 2.6, "projectile_speed": 9, "hit_air": 1 },
+    "onHit": [ { "status": "poison", "magnitude": 2, "duration": 4 } ],
+    "upgrades": [
+      { "cost": 55, "mods": [ { "stat": "status_power", "pct": 0.3 }, { "stat": "multishot", "add": 1 } ] },
+      { "cost": 80, "mods": [ { "stat": "status_duration", "pct": 0.4 }, { "stat": "attack_speed", "pct": 0.2 } ] }
+    ],
+    "branches": [
+      { "id": "plague", "name": "Plague Bearer", "cost": 140, "description": "Poison splashes (+0.8 radius), +20% poison.",
+        "mods": [ { "stat": "splash", "add": 0.8 }, { "stat": "status_power", "pct": 0.2 } ] },
+      { "id": "corrosive", "name": "Corrosive", "cost": 140, "description": "Hits shred 3 armor and make enemies Vulnerable.",
+        "onHit": [ { "status": "shred", "magnitude": 3, "duration": 5 }, { "status": "vulnerable", "magnitude": 0.15, "duration": 3 } ] }
+    ]
+  },
+  {
+    "id": "tesla", "name": "Tesla Coil", "rarity": "uncommon", "cost": 90,
+    "description": "Lightning that chains between nearby enemies.",
+    "tags": ["arcane", "tech"], "kind": "chain", "damageType": "arcane",
+    "color": "#c08cff",
+    "stats": { "damage": 12, "cooldown": 1.2, "range": 2.4, "chain": 3, "chain_range": 1.8, "hit_air": 1 },
+    "upgrades": [
+      { "cost": 70, "mods": [ { "stat": "damage", "add": 6 }, { "stat": "chain", "add": 1 } ] },
+      { "cost": 100, "mods": [ { "stat": "attack_speed", "pct": 0.25 }, { "stat": "chain_range", "add": 0.4 } ] }
+    ],
+    "branches": [
+      { "id": "storm", "name": "Stormcaller", "cost": 170, "description": "+3 chain jumps, +20% damage.",
+        "mods": [ { "stat": "chain", "add": 3 }, { "stat": "damage", "pct": 0.2 } ] },
+      { "id": "overload", "name": "Overload", "cost": 170, "description": "+50% damage, 25% chance to stun for 0.6s.",
+        "mods": [ { "stat": "damage", "pct": 0.5 } ],
+        "onHit": [ { "status": "freeze", "duration": 0.6, "chance": 0.25 } ] }
+    ]
+  },
+  {
+    "id": "mortar", "name": "Mortar", "rarity": "uncommon", "cost": 100,
+    "description": "Long-range shells aimed at where enemies WILL be. Big splash, ground only.",
+    "tags": ["physical", "siege"], "kind": "projectile", "damageType": "physical", "homing": false,
+    "color": "#a0a37a",
+    "stats": { "damage": 26, "cooldown": 2.6, "range": 4.2, "splash": 1.1, "projectile_speed": 4.5 },
+    "upgrades": [
+      { "cost": 80, "mods": [ { "stat": "damage", "add": 14 } ] },
+      { "cost": 110, "mods": [ { "stat": "splash", "add": 0.3 }, { "stat": "attack_speed", "pct": 0.2 } ] }
+    ],
+    "branches": [
+      { "id": "bombard", "name": "Bombard", "cost": 180, "description": "+70% damage, shells shred 3 armor.",
+        "mods": [ { "stat": "damage", "pct": 0.7 } ],
+        "onHit": [ { "status": "shred", "magnitude": 3, "duration": 5 } ] },
+      { "id": "napalm", "name": "Napalm Shells", "cost": 180, "description": "Shells ignite (6 burn/s), +0.4 splash.",
+        "mods": [ { "stat": "splash", "add": 0.4 } ],
+        "onHit": [ { "status": "burn", "magnitude": 6, "duration": 4 } ] }
+    ]
+  },
+  {
+    "id": "ballista", "name": "Ballista", "rarity": "uncommon", "cost": 110,
+    "description": "Huge single bolts with armor pierce. Targets the strongest enemy.",
+    "tags": ["physical", "ranged"], "kind": "projectile", "damageType": "physical", "target": "strongest",
+    "color": "#b07a4a",
+    "stats": { "damage": 45, "cooldown": 2.2, "range": 4.6, "projectile_speed": 22, "hit_air": 1,
+               "armor_pen": 4, "crit_chance": 0.1, "crit_mult": 2.5 },
+    "upgrades": [
+      { "cost": 85, "mods": [ { "stat": "damage", "add": 25 } ] },
+      { "cost": 115, "mods": [ { "stat": "attack_speed", "pct": 0.2 }, { "stat": "range", "add": 0.6 } ] }
+    ],
+    "branches": [
+      { "id": "deadeye", "name": "Deadeye", "cost": 190, "description": "+30% crit chance, +1.0 crit damage.",
+        "mods": [ { "stat": "crit_chance", "add": 0.3 }, { "stat": "crit_mult", "add": 1.0 } ] },
+      { "id": "harpoon", "name": "Harpoon", "cost": 190, "description": "+25% damage; bolts slow 50% and apply Vulnerable.",
+        "mods": [ { "stat": "damage", "pct": 0.25 } ],
+        "onHit": [ { "status": "slow", "magnitude": 0.5, "duration": 2 }, { "status": "vulnerable", "magnitude": 0.25, "duration": 4 } ] }
+    ]
+  },
+  {
+    "id": "beacon", "name": "War Beacon", "rarity": "rare", "cost": 120, "locked": true, "unlockCost": 60,
+    "description": "Does not attack. Nearby towers deal more damage and attack faster.",
+    "tags": ["support"], "kind": "support", "damageType": "arcane",
+    "color": "#ffd34d",
+    "stats": { "range": 1.6, "support_damage": 0.2, "support_speed": 0.1 },
+    "upgrades": [
+      { "cost": 90, "mods": [ { "stat": "support_damage", "add": 0.1 }, { "stat": "range", "add": 0.5 } ] },
+      { "cost": 120, "mods": [ { "stat": "support_speed", "add": 0.15 } ] }
+    ],
+    "branches": [
+      { "id": "warcry", "name": "War Cry", "cost": 200, "description": "+25% aura damage.",
+        "mods": [ { "stat": "support_damage", "add": 0.25 } ] },
+      { "id": "haste", "name": "Haste Totem", "cost": 200, "description": "+25% aura attack speed, +0.5 range.",
+        "mods": [ { "stat": "support_speed", "add": 0.25 }, { "stat": "range", "add": 0.5 } ] }
+    ]
+  },
+  {
+    "id": "alchemist", "name": "Alchemist Lab", "rarity": "rare", "cost": 100, "locked": true, "unlockCost": 70,
+    "description": "Brews mana while a wave is running. Pays for itself if built early.",
+    "tags": ["support", "economy"], "kind": "generator", "damageType": "arcane",
+    "color": "#5ab0ff",
+    "stats": { "cooldown": 4.0, "income": 6, "range": 1.0 },
+    "upgrades": [
+      { "cost": 80, "mods": [ { "stat": "income", "add": 4 } ] },
+      { "cost": 110, "mods": [ { "stat": "attack_speed", "pct": 0.3 } ] }
+    ],
+    "branches": [
+      { "id": "transmute", "name": "Transmuter", "cost": 160, "description": "+8 mana per brew.",
+        "mods": [ { "stat": "income", "add": 8 } ] },
+      { "id": "catalyst", "name": "Catalyst", "cost": 160, "description": "Also grants +15% damage to nearby towers.",
+        "mods": [ { "stat": "support_damage", "add": 0.15 }, { "stat": "range", "set": 1.6 } ] }
+    ]
+  },
+  {
+    "id": "obelisk", "name": "Void Obelisk", "rarity": "rare", "cost": 130, "locked": true, "unlockCost": 80,
+    "description": "Arcane pulse that makes every enemy around it Vulnerable.",
+    "tags": ["arcane"], "kind": "pulse", "damageType": "arcane",
+    "color": "#9b6bff",
+    "stats": { "damage": 14, "cooldown": 2.0, "range": 2.2, "hit_air": 1 },
+    "onHit": [ { "status": "vulnerable", "magnitude": 0.2, "duration": 3 } ],
+    "upgrades": [
+      { "cost": 95, "mods": [ { "stat": "damage", "add": 8 }, { "stat": "status_power", "pct": 0.25 } ] },
+      { "cost": 125, "mods": [ { "stat": "range", "add": 0.5 }, { "stat": "attack_speed", "pct": 0.2 } ] }
+    ],
+    "branches": [
+      { "id": "singularity", "name": "Singularity", "cost": 210, "description": "Pulses also slow 40%, +40% damage.",
+        "mods": [ { "stat": "damage", "pct": 0.4 } ],
+        "onHit": [ { "status": "slow", "magnitude": 0.4, "duration": 1.5 } ] },
+      { "id": "entropy", "name": "Entropy", "cost": 210, "description": "+75% Vulnerable power, lasts 50% longer.",
+        "mods": [ { "stat": "status_power", "pct": 0.75 }, { "stat": "status_duration", "pct": 0.5 } ] }
+    ]
+  }
+]
