@@ -1,0 +1,89 @@
+// Enemies. hp is the base value before act/floor/ascension scaling. speed in tiles/second.
+// armor: flat reduction of PHYSICAL damage per hit (at least 25% always gets through).
+// resist: percentage reduction per damage type (negative = weakness).
+// abilities: data-driven behaviours, see battle/ability/AbilityFactory.java.
+[
+  // ---------------- Act 1: The Greenwood ----------------
+  { "id": "grunt", "name": "Goblin Grunt", "description": "Basic infantry.",
+    "hp": 30, "speed": 1.15, "leak": 1, "mana": 3, "shape": "circle", "color": "#d65a4a" },
+  { "id": "runner", "name": "Wolf Runner", "description": "Very fast. Resists slows.",
+    "hp": 20, "speed": 2.1, "leak": 1, "mana": 2, "shape": "triangle", "color": "#e0a040", "radius": 0.24,
+    "statusResist": { "slow": 0.3 } },
+  { "id": "brute", "name": "Orc Brute", "description": "Slow and armored. Weak to slows.",
+    "hp": 110, "speed": 0.75, "armor": 4, "leak": 3, "mana": 7, "shape": "square", "color": "#6aa04a", "radius": 0.34,
+    "statusResist": { "slow": -0.2 } },
+  { "id": "shaman", "name": "Goblin Shaman", "description": "Periodically heals nearby enemies.",
+    "hp": 50, "speed": 1.0, "leak": 1, "mana": 6, "shape": "diamond", "color": "#b070e0",
+    "abilities": [ { "type": "healAura", "radius": 1.8, "pct": 0.08, "interval": 3 } ] },
+  { "id": "bat", "name": "Cave Bat", "description": "Flying: ignores the path. Only some towers can hit it.",
+    "hp": 26, "speed": 1.4, "leak": 1, "mana": 3, "shape": "triangle", "color": "#8a6ad0", "flying": true, "radius": 0.22 },
+  { "id": "shieldbearer", "name": "Shield Bearer", "description": "Regenerating shield absorbs damage.",
+    "hp": 60, "speed": 0.95, "armor": 2, "leak": 2, "mana": 6, "shape": "hexagon", "color": "#7aa0c0", "radius": 0.3,
+    "abilities": [ { "type": "shield", "pct": 0.6, "delay": 3, "rate": 0.25 } ] },
+  { "id": "spiderling", "name": "Spiderling", "description": "Tiny and quick.",
+    "hp": 10, "speed": 1.8, "leak": 1, "mana": 1, "shape": "circle", "color": "#4a4a52", "radius": 0.16 },
+  { "id": "broodmother", "name": "Brood Mother", "description": "Bursts into spiderlings when killed.",
+    "hp": 130, "speed": 0.8, "leak": 3, "mana": 10, "shape": "hexagon", "color": "#7a5a8a", "radius": 0.36,
+    "abilities": [ { "type": "splitOnDeath", "enemy": "spiderling", "count": 4 } ] },
+  { "id": "warlord", "name": "Orc Warlord", "description": "Summons grunts, becomes invulnerable at 66% and 33% HP and enrages below 50%.",
+    "hp": 1300, "speed": 0.5, "armor": 6, "leak": 12, "mana": 60, "shape": "star", "color": "#c0392b",
+    "radius": 0.48, "boss": true, "statusResist": { "freeze": 0.6, "slow": 0.3 },
+    "abilities": [
+      { "type": "summon", "enemy": "grunt", "count": 3, "interval": 7, "initialDelay": 4 },
+      { "type": "enrage", "threshold": 0.5, "speedMult": 1.6 },
+      { "type": "phases", "thresholds": [0.66, 0.33], "duration": 2.5, "summon": "brute", "count": 2 }
+    ] },
+
+  // ---------------- Act 2: The Frostmarch ----------------
+  { "id": "yeti", "name": "Yeti", "description": "Tough and regenerates health.",
+    "hp": 170, "speed": 1.0, "armor": 3, "leak": 3, "mana": 9, "shape": "square", "color": "#dfe8ef", "radius": 0.34,
+    "resist": { "frost": 0.3 },
+    "abilities": [ { "type": "regen", "pct": 0.02 } ] },
+  { "id": "wraith", "name": "Wraith", "description": "Resists physical damage and blinks forward.",
+    "hp": 85, "speed": 1.25, "leak": 2, "mana": 6, "shape": "diamond", "color": "#a0c8e0",
+    "resist": { "physical": 0.4, "arcane": -0.3 },
+    "abilities": [ { "type": "blink", "distance": 2.0, "interval": 5 } ] },
+  { "id": "frost_drake", "name": "Frost Drake", "description": "Flying. Resists frost.",
+    "hp": 100, "speed": 1.15, "leak": 2, "mana": 7, "shape": "triangle", "color": "#6fb7e6", "flying": true, "radius": 0.3,
+    "resist": { "frost": 0.6 } },
+  { "id": "ice_golem", "name": "Ice Golem", "description": "Heavily armored. Weak to fire, resists frost.",
+    "hp": 260, "speed": 0.6, "armor": 8, "leak": 4, "mana": 12, "shape": "hexagon", "color": "#9fd0f0", "radius": 0.4,
+    "resist": { "frost": 0.5, "fire": -0.3 }, "statusResist": { "slow": 0.4, "freeze": 0.5 } },
+  { "id": "frost_wyrm", "name": "Frost Wyrm", "description": "Flying boss. Freezes towers with its breath and calls drakes.",
+    "hp": 1800, "speed": 0.42, "leak": 14, "mana": 90, "shape": "star", "color": "#5fa8d3",
+    "radius": 0.52, "boss": true, "flying": true,
+    "resist": { "frost": 0.6 }, "statusResist": { "freeze": 0.8, "slow": 0.4 },
+    "abilities": [
+      { "type": "disableTowers", "radius": 2.2, "duration": 3, "interval": 9, "initialDelay": 5 },
+      { "type": "phases", "thresholds": [0.5], "duration": 3, "summon": "frost_drake", "count": 3 },
+      { "type": "regen", "pct": 0.004 }
+    ] },
+
+  // ---------------- Act 3: The Ashen Wastes ----------------
+  { "id": "imp", "name": "Fire Imp", "description": "Fast and immune-ish to fire.",
+    "hp": 60, "speed": 1.9, "leak": 1, "mana": 3, "shape": "triangle", "color": "#ff6a3d", "radius": 0.22,
+    "resist": { "fire": 0.7 } },
+  { "id": "magma_brute", "name": "Magma Brute", "description": "Massive armor, regenerates. Weak to frost.",
+    "hp": 400, "speed": 0.62, "armor": 12, "leak": 4, "mana": 14, "shape": "square", "color": "#b5452a", "radius": 0.42,
+    "resist": { "fire": 0.5, "frost": -0.3 },
+    "abilities": [ { "type": "regen", "pct": 0.01 } ] },
+  { "id": "warlock", "name": "Ash Warlock", "description": "Summons imps and shields itself.",
+    "hp": 160, "speed": 0.95, "leak": 2, "mana": 10, "shape": "diamond", "color": "#7a2a5a",
+    "resist": { "arcane": 0.3 },
+    "abilities": [ { "type": "summon", "enemy": "imp", "count": 2, "interval": 6, "initialDelay": 2 },
+                   { "type": "shield", "pct": 0.4, "delay": 4, "rate": 0.2 } ] },
+  { "id": "phoenix", "name": "Phoenix", "description": "Flying. Is reborn once at 50% health.",
+    "hp": 160, "speed": 1.0, "leak": 2, "mana": 10, "shape": "star", "color": "#ffb13d", "flying": true, "radius": 0.32,
+    "resist": { "fire": 0.9 },
+    "abilities": [ { "type": "rebirth", "pct": 0.5 } ] },
+  { "id": "colossus", "name": "Ashen Colossus", "description": "Final boss. Stomps towers, summons imps, enrages and shields itself in phases.",
+    "hp": 5000, "speed": 0.38, "armor": 14, "leak": 16, "mana": 150, "shape": "star", "color": "#5a2a20",
+    "radius": 0.6, "boss": true,
+    "resist": { "fire": 0.4 }, "statusResist": { "slow": 0.6, "freeze": 0.9 },
+    "abilities": [
+      { "type": "disableTowers", "radius": 2.5, "duration": 2.5, "interval": 8, "initialDelay": 4 },
+      { "type": "summon", "enemy": "imp", "count": 3, "interval": 6, "initialDelay": 3 },
+      { "type": "enrage", "threshold": 0.3, "speedMult": 1.8 },
+      { "type": "phases", "thresholds": [0.75, 0.5, 0.25], "duration": 2, "summon": "magma_brute", "count": 1 }
+    ] }
+]

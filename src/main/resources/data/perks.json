@@ -1,0 +1,17 @@
+// Meta-progression perks, bought with Essence in the Sanctum. Effects are applied when a run starts.
+[
+  { "id": "fortified", "name": "Fortified Walls", "description": "+4 max HP per level.",
+    "effect": "maxHp", "perLevel": 4, "costs": [20, 40, 70] },
+  { "id": "war_chest", "name": "War Chest", "description": "+30 starting gold per level.",
+    "effect": "startGold", "perLevel": 30, "costs": [15, 35, 60] },
+  { "id": "mana_well", "name": "Mana Well", "description": "+15 starting mana in every battle per level.",
+    "effect": "startMana", "perLevel": 15, "costs": [25, 50, 90] },
+  { "id": "fortune", "name": "Fortune", "description": "+4% chance of rare tower drafts per level.",
+    "effect": "rareChance", "perLevel": 4, "costs": [30, 60] },
+  { "id": "herbalist", "name": "Herbalist", "description": "Campfires heal +8% more per level.",
+    "effect": "restHeal", "perLevel": 0.08, "costs": [20, 45] },
+  { "id": "scholar", "name": "Scholar", "description": "Tower drafts offer 1 extra choice.",
+    "effect": "draftChoices", "perLevel": 1, "costs": [120] },
+  { "id": "heirloom", "name": "Heirloom", "description": "Start every run with a random common relic.",
+    "effect": "startRelic", "perLevel": 1, "costs": [80] }
+]

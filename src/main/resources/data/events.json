@@ -1,0 +1,107 @@
+// "?" events. Outcome types (run/EventEngine.java):
+//   gold {amount} | hp {amount} | heal {pct} | maxHp {amount} | relic {rarity} | blueprint {rarity}
+//   upgradeRandom {count} | gamble {chance, win: [...], lose: [...]} | battle {kind} | text {text}
+// Rarity may be "common", "uncommon", "rare" or "random".
+[
+  { "id": "blessing", "special": true, "title": "The Wayshrine",
+    "text": "Before the road splits, an old shrine hums with power. It offers a single gift to those who march against the dark.",
+    "choices": [
+      { "label": "Gift of Coin", "description": "Gain 100 gold.", "outcomes": [ { "type": "gold", "amount": 100 } ] },
+      { "label": "Gift of Fortitude", "description": "+8 max HP.", "outcomes": [ { "type": "maxHp", "amount": 8 } ] },
+      { "label": "Gift of Craft", "description": "Upgrade a random blueprint.", "outcomes": [ { "type": "upgradeRandom", "count": 1 } ] },
+      { "label": "Gift of the Unknown", "description": "Obtain a random common relic.", "outcomes": [ { "type": "relic", "rarity": "common" } ] }
+    ] },
+
+  { "id": "shrine", "title": "Forsaken Shrine", "acts": [1, 2, 3],
+    "text": "A cracked altar, still warm. Something old is listening.",
+    "choices": [
+      { "label": "Pray", "description": "Lose 7 HP. Obtain an uncommon relic.", "requires": { "hp": 8 },
+        "outcomes": [ { "type": "hp", "amount": -7 }, { "type": "relic", "rarity": "uncommon" } ] },
+      { "label": "Desecrate", "description": "50%: gain 90 gold. 50%: lose 12 HP.",
+        "outcomes": [ { "type": "gamble", "chance": 0.5,
+                        "win": [ { "type": "gold", "amount": 90 } ],
+                        "lose": [ { "type": "hp", "amount": -12 }, { "type": "text", "text": "The altar bites back." } ] } ] },
+      { "label": "Leave", "description": "Nothing happens." }
+    ] },
+
+  { "id": "cart", "title": "Overturned Cart", "acts": [1, 2],
+    "text": "A merchant's cart lies in the ditch. Crates of blueprints are scattered in the mud, and you hear growling nearby.",
+    "choices": [
+      { "label": "Help the merchant", "description": "Pay 25 gold. Obtain an uncommon blueprint.", "requires": { "gold": 25 },
+        "outcomes": [ { "type": "gold", "amount": -25 }, { "type": "blueprint", "rarity": "uncommon" } ] },
+      { "label": "Loot the crates", "description": "Gain 50 gold. 40% chance of an ambush.",
+        "outcomes": [ { "type": "gold", "amount": 50 },
+                      { "type": "gamble", "chance": 0.6, "win": [], "lose": [ { "type": "text", "text": "Wolves! Defend yourself." }, { "type": "battle", "kind": "normal" } ] } ] },
+      { "label": "Leave", "description": "Walk away." }
+    ] },
+
+  { "id": "forge", "title": "Abandoned Forge", "acts": [1, 2, 3],
+    "text": "The anvil is cold, but the bellows still work. With some effort you could improve your designs.",
+    "choices": [
+      { "label": "Work the bellows", "description": "Lose 6 HP. Upgrade a random blueprint.", "requires": { "hp": 7 },
+        "outcomes": [ { "type": "hp", "amount": -6 }, { "type": "upgradeRandom", "count": 1 } ] },
+      { "label": "Melt the scrap", "description": "Gain 35 gold.", "outcomes": [ { "type": "gold", "amount": 35 } ] },
+      { "label": "Leave", "description": "Move on." }
+    ] },
+
+  { "id": "gambler", "title": "The Gambler", "acts": [1, 2, 3],
+    "text": "A grinning figure shuffles bone dice. \"Double or nothing, commander?\"",
+    "choices": [
+      { "label": "Bet 40 gold", "description": "50%: win 100 gold.", "requires": { "gold": 40 },
+        "outcomes": [ { "type": "gold", "amount": -40 },
+                      { "type": "gamble", "chance": 0.5, "win": [ { "type": "gold", "amount": 100 } ], "lose": [ { "type": "text", "text": "Snake eyes." } ] } ] },
+      { "label": "Bet your blood", "description": "50%: obtain a rare relic. 50%: lose 10 HP.", "requires": { "hp": 11 },
+        "outcomes": [ { "type": "gamble", "chance": 0.5, "win": [ { "type": "relic", "rarity": "rare" } ], "lose": [ { "type": "hp", "amount": -10 } ] } ] },
+      { "label": "Decline", "description": "Keep your coin." }
+    ] },
+
+  { "id": "library", "title": "Ancient Library", "acts": [2, 3],
+    "text": "Dusty shelves hold schematics of towers long forgotten.",
+    "choices": [
+      { "label": "Study all night", "description": "Lose 5 max HP. Obtain a rare blueprint.",
+        "outcomes": [ { "type": "maxHp", "amount": -5 }, { "type": "blueprint", "rarity": "rare" } ] },
+      { "label": "Rest among the books", "description": "Heal 20% of max HP.", "outcomes": [ { "type": "heal", "pct": 0.2 } ] },
+      { "label": "Leave", "description": "Leave quietly." }
+    ] },
+
+  { "id": "fountain", "title": "Moonlit Fountain", "acts": [1, 2, 3],
+    "text": "Silver water glows under the moon.",
+    "choices": [
+      { "label": "Drink", "description": "Heal 25% of max HP.", "outcomes": [ { "type": "heal", "pct": 0.25 } ] },
+      { "label": "Fill a flask", "description": "+5 max HP.", "outcomes": [ { "type": "maxHp", "amount": 5 } ] }
+    ] },
+
+  { "id": "ambush", "title": "Ambush!", "acts": [1, 2, 3],
+    "text": "Elite raiders block the road. Their armor gleams. They want a fight.",
+    "choices": [
+      { "label": "Fight", "description": "Fight an ELITE battle (elite rewards).", "outcomes": [ { "type": "battle", "kind": "elite" } ] },
+      { "label": "Flee", "description": "Lose 8 HP.", "outcomes": [ { "type": "hp", "amount": -8 } ] }
+    ] },
+
+  { "id": "sage", "title": "Wandering Sage", "acts": [2, 3],
+    "text": "An old engineer offers to review your blueprints, for a price.",
+    "choices": [
+      { "label": "Pay 70 gold", "description": "Upgrade 2 random blueprints.", "requires": { "gold": 70 },
+        "outcomes": [ { "type": "gold", "amount": -70 }, { "type": "upgradeRandom", "count": 2 } ] },
+      { "label": "Ask for advice", "description": "Gain 15 gold.", "outcomes": [ { "type": "gold", "amount": 15 } ] },
+      { "label": "Leave", "description": "Politely decline." }
+    ] },
+
+  { "id": "idol", "title": "Cursed Idol", "acts": [1, 2, 3],
+    "text": "A jade idol stares at you from a pedestal. It is beautiful. It is wrong.",
+    "choices": [
+      { "label": "Take it", "description": "Obtain a rare relic. Lose 6 max HP.",
+        "outcomes": [ { "type": "relic", "rarity": "rare" }, { "type": "maxHp", "amount": -6 } ] },
+      { "label": "Smash it", "description": "Gain 40 gold.", "outcomes": [ { "type": "gold", "amount": 40 } ] },
+      { "label": "Leave", "description": "Some things are better left alone." }
+    ] },
+
+  { "id": "refugees", "title": "Refugees", "acts": [1, 2, 3],
+    "text": "Villagers flee the war. Some are skilled builders.",
+    "choices": [
+      { "label": "Give 30 gold", "description": "+6 max HP.", "requires": { "gold": 30 },
+        "outcomes": [ { "type": "gold", "amount": -30 }, { "type": "maxHp", "amount": 6 } ] },
+      { "label": "Recruit builders", "description": "Obtain a common blueprint.", "outcomes": [ { "type": "blueprint", "rarity": "common" } ] },
+      { "label": "Leave", "description": "Wish them luck." }
+    ] }
+]

@@ -1,0 +1,52 @@
+// Board synergies (auto-battler style). Counts towers on the field with the given tag.
+// scope "tag": bonus only for towers with the tag; "all": every tower.
+[
+  { "id": "discipline", "name": "Iron Discipline", "tag": "physical",
+    "tiers": [
+      { "count": 3, "description": "Physical towers +10% damage.", "mods": [ { "stat": "damage", "pct": 0.1 } ] },
+      { "count": 6, "description": "Physical towers +25% damage and +3 armor pierce.",
+        "mods": [ { "stat": "damage", "pct": 0.25 }, { "stat": "armor_pen", "add": 3 } ] }
+    ] },
+  { "id": "marksmen", "name": "Marksmen", "tag": "ranged",
+    "tiers": [
+      { "count": 2, "description": "Ranged towers +12% range.", "mods": [ { "stat": "range", "pct": 0.12 } ] },
+      { "count": 4, "description": "Ranged towers +12% range and +10% crit chance.",
+        "mods": [ { "stat": "range", "pct": 0.12 }, { "stat": "crit_chance", "add": 0.1 } ] }
+    ] },
+  { "id": "artillery", "name": "Artillery", "tag": "siege",
+    "tiers": [
+      { "count": 2, "description": "Siege towers +20% splash radius.", "mods": [ { "stat": "splash", "pct": 0.2 } ] },
+      { "count": 4, "description": "Siege towers +20% splash and +25% damage.",
+        "mods": [ { "stat": "splash", "pct": 0.2 }, { "stat": "damage", "pct": 0.25 } ] }
+    ] },
+  { "id": "permafrost", "name": "Permafrost", "tag": "frost",
+    "tiers": [
+      { "count": 2, "description": "Frost effects +20% stronger.", "mods": [ { "stat": "status_power", "pct": 0.2 } ] },
+      { "count": 4, "description": "Frost effects +20% stronger, last 40% longer; frost damage +40%.",
+        "mods": [ { "stat": "status_power", "pct": 0.2 }, { "stat": "status_duration", "pct": 0.4 }, { "stat": "damage", "pct": 0.4 } ] }
+    ] },
+  { "id": "wildfire", "name": "Wildfire", "tag": "fire",
+    "tiers": [
+      { "count": 2, "description": "Burns +30% stronger.", "mods": [ { "stat": "status_power", "pct": 0.3 } ] },
+      { "count": 3, "description": "Burns +30% stronger; fire towers attack 25% faster.",
+        "mods": [ { "stat": "status_power", "pct": 0.3 }, { "stat": "attack_speed", "pct": 0.25 } ] }
+    ] },
+  { "id": "blight", "name": "Blight", "tag": "poison",
+    "tiers": [
+      { "count": 2, "description": "Poison +30% stronger.", "mods": [ { "stat": "status_power", "pct": 0.3 } ] },
+      { "count": 4, "description": "Poison +30% stronger, lasts 50% longer and splashes.",
+        "mods": [ { "stat": "status_power", "pct": 0.3 }, { "stat": "status_duration", "pct": 0.5 }, { "stat": "splash", "add": 0.5 } ] }
+    ] },
+  { "id": "conduction", "name": "Conduction", "tag": "arcane",
+    "tiers": [
+      { "count": 2, "description": "Arcane towers +15% damage and +1 chain.",
+        "mods": [ { "stat": "damage", "pct": 0.15 }, { "stat": "chain", "add": 1 } ] },
+      { "count": 4, "description": "Arcane towers +35% damage and +2 chains.",
+        "mods": [ { "stat": "damage", "pct": 0.35 }, { "stat": "chain", "add": 2 } ] }
+    ] },
+  { "id": "harmony", "name": "Elemental Harmony", "requiresAll": ["fire", "frost", "poison", "arcane"],
+    "tiers": [
+      { "count": 1, "scope": "all", "description": "One tower of each element: ALL towers +15% damage.",
+        "mods": [ { "stat": "damage", "pct": 0.15 } ] }
+    ] }
+]

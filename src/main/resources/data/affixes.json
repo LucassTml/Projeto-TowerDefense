@@ -1,0 +1,17 @@
+// Elite affixes. Elite fights roll one (or more, with Ascension) per elite enemy.
+[
+  { "id": "armored", "name": "Armored", "description": "+6 armor, +20% HP.", "color": "#b0b8c8",
+    "hpMult": 1.2, "armorAdd": 6 },
+  { "id": "swift", "name": "Swift", "description": "+35% speed.", "color": "#ffd34d",
+    "hpMult": 1.1, "speedMult": 1.35 },
+  { "id": "regenerating", "name": "Regenerating", "description": "Regenerates 3% HP per second.", "color": "#6ad182",
+    "hpMult": 1.1, "abilities": [ { "type": "regen", "pct": 0.03 } ] },
+  { "id": "shielded", "name": "Shielded", "description": "Regenerating shield worth 50% HP.", "color": "#5ab0ff",
+    "abilities": [ { "type": "shield", "pct": 0.5, "delay": 3, "rate": 0.3 } ] },
+  { "id": "juggernaut", "name": "Juggernaut", "description": "Immune to freeze, resists slows, +30% HP.", "color": "#e05561",
+    "hpMult": 1.3, "statusResist": { "slow": 0.7, "freeze": 1.0 } },
+  { "id": "splitting", "name": "Splitting", "description": "Bursts into spiderlings on death.", "color": "#c08cff",
+    "abilities": [ { "type": "splitOnDeath", "enemy": "spiderling", "count": 3 } ] },
+  { "id": "blinking", "name": "Blinking", "description": "Teleports forward every few seconds.", "color": "#bff0ff",
+    "abilities": [ { "type": "blink", "distance": 1.6, "interval": 6 } ] }
+]
